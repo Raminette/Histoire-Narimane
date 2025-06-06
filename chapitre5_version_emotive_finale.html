@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chapitre 5 – La Dernière Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', serif;
+      background-image: url('https://cdn.pixabay.com/photo/2017/08/01/08/29/library-2567250_1280.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: #fffde7;
+    }
+
+    #container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem;
+      background-color: rgba(20, 10, 5, 0.92);
+      border-radius: 1rem;
+      margin-top: 3rem;
+      box-shadow: 0 0 30px rgba(255, 255, 200, 0.3);
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #fce38a;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+    }
+
+    .section {
+      margin-top: 2rem;
+    }
+
+    .choice, .validate {
+      background-color: #6d4c41;
+      border: none;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      width: 100%;
+      color: #fffde7;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .choice:hover, .validate:hover {
+      background-color: #a1887f;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 1.1rem;
+    }
+
+    #finalMessage {
+      font-size: 1.3rem;
+      margin-top: 2rem;
+      font-style: italic;
+      color: #ffeaa7;
+      text-align: center;
+    }
+
+    .puzzle {
+      margin-top: 1rem;
+      background-color: #3e2723;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .music-control {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .audio-player {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    #help {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      background-color: rgba(0,0,0,0.7);
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Chapitre 5 – La Dernière Page</h1>
+    <div class="music-control">
+      <p><strong>🎵 Ambiance :</strong></p>
+      <audio controls class="audio-player">
+        <source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l'audio.
+      </audio>
+    </div>
+
+    <p>Tu pénètres dans la dernière salle de cette bibliothèque oubliée. L’air est chargé de poussière, de silence, de souvenirs. Les murs murmurent encore les mots qu’on n’a pas su se dire, les pages frémissent des gestes manqués. Et pourtant, ici, tout peut recommencer.</p>
+
+    <div class="section">
+      <p><strong>Un livre t’attend. Il contient quatre chapitres effacés. Tu dois en reconstituer l'ordre logique :</strong></p>
+      <div class="puzzle">
+        <p>1. <input type="text" id="step1" placeholder="Indice : tout commence par un doute" /></p>
+        <p>2. <input type="text" id="step2" placeholder="Indice : puis viennent les blessures" /></p>
+        <p>3. <input type="text" id="step3" placeholder="Indice : la force du pardon..." /></p>
+        <p>4. <input type="text" id="step4" placeholder="Indice : ...et la lumière de l’amour." /></p>
+        <button class="validate" onclick="validatePuzzle()">Valider la reconstruction</button>
+        <p id="result" class="hidden"></p>
+      </div>
+    </div>
+
+    <div class="section hidden" id="reflection">
+      <p><strong>Tu as reconstruit ton histoire.</strong> Il te reste une phrase à écrire. Une promesse à toi-même :</p>
+      <input type="text" id="finalNote" placeholder="Je choisis de..." />
+      <button class="validate" onclick="showNote()">Graver cette promesse</button>
+      <div id="finalNoteText" class="hidden"></div>
+    </div>
+
+    <div class="section hidden" id="finalChoice">
+      <p><strong>Un dernier choix t’est offert :</strong></p>
+      <button class="choice" onclick="endPath('fermer')">📕 Fermer le livre</button>
+      <button class="choice" onclick="endPath('continuer')">📖 Écrire la suite à deux</button>
+    </div>
+
+    <div class="section hidden" id="finalMessage">
+      <p>
+        Il y a des livres qu’on rouvre même après une fin déchirante.<br><br>
+        Parce que certaines histoires ne méritent pas qu’on les abandonne au premier chapitre compliqué.<br>
+        Parce que malgré les doutes, les silences et les douleurs, il y a quelque chose d'indestructible entre nous.<br><br>
+        J’ai vu nos ombres danser dans les moments sombres, et pourtant, je choisis encore ta lumière.<br>
+        Même blessé, mon cœur continue de battre ton prénom, sans pause, sans doute, sans fierté mal placée.<br><br>
+        Je ne veux pas effacer ce qu’on a vécu, ni prétendre que tout est parfait.<br>
+        Je veux juste continuer d’écrire avec toi, une ligne à la fois, même tremblante.<br><br>
+        Tu es mon histoire préférée, même quand elle me fait pleurer.<br><br>
+        <strong>Fin… mais pas vraiment.</strong><br>
+        <em>Clique sur le fichier surprise.</em>
+      </p>
+    </div>
+  </div>
+
+  <div id="help">💡 Besoin d’aide ? L’ordre est : Doute, Blessure, Pardon, Amour</div>
+
+  <script>
+    let attempts = 0;
+
+    function validatePuzzle() {
+      const step1 = document.getElementById("step1").value.toLowerCase().trim();
+      const step2 = document.getElementById("step2").value.toLowerCase().trim();
+      const step3 = document.getElementById("step3").value.toLowerCase().trim();
+      const step4 = document.getElementById("step4").value.toLowerCase().trim();
+
+      attempts++;
+
+      if (step1.includes("doute") && step2.includes("blessure") && step3.includes("pardon") && step4.includes("amour")) {
+        document.getElementById("result").innerText = "🧩 Bravo. Tu viens de reconstruire ce qui vous lie.";
+        document.getElementById("result").classList.remove("hidden");
+        document.getElementById("reflection").classList.remove("hidden");
+      } else if (attempts >= 3) {
+        document.getElementById("result").innerText = "🧩 La réponse est : Doute, Blessure, Pardon, Amour.";
+        document.getElementById("result").classList.remove("hidden");
+        document.getElementById("reflection").classList.remove("hidden");
+      } else {
+        document.getElementById("result").innerText = "❌ Ce n’est pas le bon ordre. Essaie encore.";
+        document.getElementById("result").classList.remove("hidden");
+      }
+    }
+
+    function showNote() {
+      const note = document.getElementById("finalNote").value;
+      if (note.length > 0) {
+        document.getElementById("finalNoteText").innerHTML = "<p><em>“" + note + "”</em></p>";
+        document.getElementById("finalNoteText").classList.remove("hidden");
+        document.getElementById("finalChoice").classList.remove("hidden");
+      }
+    }
+
+    function endPath(choice) {
+      if (choice === 'continuer') {
+        document.getElementById("finalMessage").classList.remove("hidden");
+        window.scrollTo(0, document.body.scrollHeight);
+      } else {
+        alert("Tu fermes ce livre... Mais un jour, peut-être, tu reviendras en tourner la page.");
+      }
+    }
+  </script>
+</body>
+</html>

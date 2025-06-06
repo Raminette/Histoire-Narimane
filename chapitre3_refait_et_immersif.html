@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chapitre 3 – La Traversée Intérieure (Rework)</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', serif;
+      background: #0d0d0d;
+      color: #fff;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    #container {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
+      background-color: rgba(0, 0, 0, 0.65);
+      border-radius: 1rem;
+      margin-top: 4rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    button {
+      background-color: #ffcc70;
+      color: #3d2f00;
+      font-weight: bold;
+      border: none;
+      border-radius: 0.6rem;
+      padding: 0.8rem 1.5rem;
+      margin-top: 1rem;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    button:hover {
+      background-color: #ffeaa7;
+    }
+
+    input[type="text"] {
+      padding: 0.6rem;
+      font-size: 1.1rem;
+      width: 80%;
+      margin-top: 1rem;
+      border-radius: 8px;
+      border: none;
+    }
+
+    .choice {
+      margin: 1rem 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #musicBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #1e1e1e;
+      border: 2px solid #ffcc70;
+      padding: 10px 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      color: #ffcc70;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stars"></canvas>
+  <button id="musicBtn" onclick="playMusic()">🎵 Musique</button>
+  <audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <div id="container">
+    <h1>Chapitre 3 – La Traversée Intérieure</h1>
+    <p>Tu avances dans le désert étoilé. Le silence est pesant, mais rassurant. Devant toi, une lumière te guide vers trois symboles gravés dans le sable. Tu dois en choisir un :</p>
+    <div class="choice">
+      <button onclick="choix(1)">🔐 Le cadenas</button>
+      <button onclick="choix(2)">🦋 Le papillon</button>
+      <button onclick="choix(3)">🕯️ La bougie</button>
+    </div>
+    <div id="etape1" class="hidden"></div>
+    <div id="etape2" class="hidden"></div>
+    <div id="etape3" class="hidden"></div>
+    <div id="etape4" class="hidden"></div>
+    <div id="etape5" class="hidden"></div>
+    <div id="finChapitre" class="hidden"></div>
+  </div>
+
+  <script>
+    let choixEffet = '';
+    let fragments = 0;
+
+    function playMusic() {
+      document.getElementById("bgMusic").play();
+    }
+
+    function choix(val) {
+      const etape1 = document.getElementById("etape1");
+      etape1.classList.remove("hidden");
+      if (val === 1) {
+        choixEffet = "tu caches trop";
+        etape1.innerHTML = "<p>Le cadenas t’éclaire : il te montre tout ce que tu enfermes au fond de toi. Tu n’as jamais vraiment dit pourquoi tu doutais parfois.</p>";
+      } else if (val === 2) {
+        choixEffet = "tu veux changer";
+        etape1.innerHTML = "<p>Le papillon te murmure : 'Tu veux évoluer. Mais tu n’as jamais su comment le montrer.'</p>";
+      } else {
+        choixEffet = "tu restes là, malgré tout";
+        etape1.innerHTML = "<p>La bougie reste allumée malgré le vent. Elle représente ton amour silencieux. Présent. Stable.</p>";
+      }
+      etape1.innerHTML += "<button onclick='etapeSuivante()'>Continuer</button>";
+    }
+
+    function etapeSuivante() {
+      const etape2 = document.getElementById("etape2");
+      etape2.classList.remove("hidden");
+      etape2.innerHTML = "<p>Tu tombes sur un autel. Un mot y est gravé : 'Je t’aime'. Mais tu dois l’écrire toi-même pour le voir s’illuminer.</p><input type='text' id='reponse'><button onclick='verifier()'>Valider</button><p id='feedback'></p>";
+    }
+
+    function verifier() {
+      const val = document.getElementById("reponse").value.toLowerCase().replace(/'/g,'').trim();
+      const fb = document.getElementById("feedback");
+      if (val === "je taime" || val === "jetaime") {
+        const etape3 = document.getElementById("etape3");
+        etape3.classList.remove("hidden");
+        fb.innerHTML = "";
+        etape3.innerHTML = "<p>L’autel brille. La voix de ton cœur résonne : '" + choixEffet + "'. Tu comprends que c’est le début d’un changement.</p><button onclick='etapeSuivante2()'>Continuer</button>";
+      } else {
+        fb.style.color = "salmon";
+        fb.innerText = "Essaie avec les bons mots du cœur.";
+      }
+    }
+
+    function etapeSuivante2() {
+      const etape4 = document.getElementById("etape4");
+      etape4.classList.remove("hidden");
+      etape4.innerHTML = "<p>Tu dois maintenant choisir ce que tu laisses derrière toi :</p><button onclick='final(1)'>🥀 Les reproches</button><button onclick='final(2)'>😶 Le silence</button><button onclick='final(3)'>💭 Les regrets</button>";
+    }
+
+    function final(val) {
+      const etape5 = document.getElementById("etape5");
+      etape5.classList.remove("hidden");
+      let message = "";
+      if (val === 1) message = "Tu abandonnes les reproches. Tu choisis d’aimer, pas de blâmer.";
+      if (val === 2) message = "Tu abandonnes le silence. Tu choisis la parole, même imparfaite.";
+      if (val === 3) message = "Tu abandonnes les regrets. Tu choisis le présent, malgré le passé.";
+      etape5.innerHTML = "<p>" + message + "</p><button onclick='ouvrirPorte()'>Ouvrir la porte</button>";
+    }
+
+    function ouvrirPorte() {
+      const fin = document.getElementById("finChapitre");
+      fin.classList.remove("hidden");
+      fin.innerHTML = "<p>La porte s’ouvre. Lentement. Un souffle chaud t’enveloppe.</p><p><strong>Fin du Chapitre 3.</strong> Tu peux maintenant passer au Chapitre 4.</p>";
+    }
+
+    // Animations étoiles
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const stars = [];
+    for(let i = 0; i < 120; i++){
+      stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, radius: Math.random()*1.5, speed: Math.random()*0.5 });
+    }
+    function animateStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for(let s of stars){
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI*2);
+        ctx.fillStyle = "#fff";
+        ctx.fill();
+        s.y += s.speed;
+        if(s.y > canvas.height){
+          s.y = 0;
+          s.x = Math.random() * canvas.width;
+        }
+      }
+      requestAnimationFrame(animateStars);
+    }
+    animateStars();
+  </script>
+</body>
+</html>

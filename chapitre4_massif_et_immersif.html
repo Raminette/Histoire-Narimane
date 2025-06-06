@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chapitre 4 – La Bibliosphère Suspendue</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', serif;
+      background: linear-gradient(to right, #1e1e2f, #2f2f5d);
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    #container {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 1rem;
+      margin-top: 4rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.15rem;
+      line-height: 1.6;
+    }
+
+    .choice {
+      background-color: #4b6584;
+      border: none;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+      width: 100%;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .choice:hover {
+      background-color: #778ca3;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #musicBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #222f3e;
+      border: 2px solid #f9ca24;
+      color: #f9ca24;
+      padding: 10px 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .section {
+      margin-top: 2rem;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 1.1rem;
+    }
+
+    button.validate {
+      margin-left: 1rem;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      border: none;
+      background-color: #f9ca24;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" type="audio/mpeg">
+  </audio>
+  <button id="musicBtn" onclick="playMusic()">🎧 Musique</button>
+
+  <div id="container">
+    <h1>Chapitre 4 – La Bibliosphère Suspendue</h1>
+    <p>Tu franchis la porte du désert et tombes dans le vide… mais tu n’as pas peur. Tu ouvres les yeux et tu flottes, entre ciel et mémoire. Des livres géants, des fragments de souvenirs codés, des plateformes lumineuses.</p>
+    <p>Un grimoire se pose devant toi. Il te regarde, et te demande :</p>
+    <div class="section">
+      <p><em>“Si tu pouvais réécrire un seul souvenir… lequel choisirais-tu ?”</em></p>
+      <button class="choice" onclick="showSection('souvenir1')">Notre première dispute</button>
+      <button class="choice" onclick="showSection('souvenir2')">Le jour où tu as douté</button>
+      <button class="choice" onclick="showSection('souvenir3')">Le moment où tu n'as rien dit</button>
+    </div>
+
+    <div id="souvenir1" class="section hidden">
+      <p>Tu reviens à ce moment. Tu entends encore vos voix. Tu respires. Tu choisis cette fois de dire :</p>
+      <p><strong>“Je suis pas contre toi. Je suis juste blessé.”</strong></p>
+      <p>Le grimoire s’incline. Un code s’affiche dans l’air : <code>AMOUR ≠ PERFECTION</code>.</p>
+    </div>
+
+    <div id="souvenir2" class="section hidden">
+      <p>Tu vois ton propre regard fuyant. Cette fois, tu t’approches d’elle. Tu dis :</p>
+      <p><strong>“J’ai peur. Mais t’es mon courage.”</strong></p>
+      <p>Le grimoire vibre. Un code s’affiche : <code>VULNÉRABILITÉ = FORCE</code>.</p>
+    </div>
+
+    <div id="souvenir3" class="section hidden">
+      <p>Tu entends le silence. Tu marches vers elle. Tu poses ta main sur son épaule, et tu dis :</p>
+      <p><strong>“J’aurais dû parler ce jour-là. Je le fais maintenant.”</strong></p>
+      <p>Le grimoire s’ouvre, et une clé tombe : <code>CLÉ = VÉRITÉ</code>.</p>
+    </div>
+
+    <div class="section">
+      <p>Plus loin, une salle en verre t’attend. Une IA te pose une question :</p>
+      <p><em>“Complète cette phrase pour ouvrir le pont : Je veux… parce que…”</em></p>
+      <input type="text" id="phrase" />
+      <button class="validate" onclick="validatePhrase()">Valider</button>
+      <p id="feedback" style="margin-top: 0.5rem;"></p>
+    </div>
+
+    <div class="section hidden" id="choiceImpact">
+      <p>Le pont s’illumine. Tu arrives dans une salle ronde. Quatre miroirs. Chacun reflète une partie de toi :</p>
+      <button class="choice" onclick="mirror(1)">🪞 Le miroir du passé</button>
+      <button class="choice" onclick="mirror(2)">🪞 Le miroir du futur</button>
+      <button class="choice" onclick="mirror(3)">🪞 Le miroir de l’autre</button>
+      <button class="choice" onclick="mirror(4)">🪞 Le miroir du vrai toi</button>
+    </div>
+
+    <div class="section hidden" id="ending">
+      <p>Les quatre miroirs explosent doucement et se recomposent en une sphère brillante. La voix revient :</p>
+      <p><em>“Tu n’as jamais été seul. Et tu n’auras plus jamais à marcher sans qu’on te comprenne.”</em></p>
+      <p><strong>Fin du Chapitre 4.</strong><br>Tu peux passer au Chapitre 5.</p>
+    </div>
+  </div>
+
+  <script>
+    function playMusic() {
+      document.getElementById("bgMusic").play();
+    }
+
+    function showSection(id) {
+      document.getElementById(id).classList.remove("hidden");
+    }
+
+    function validatePhrase() {
+      const val = document.getElementById("phrase").value.trim();
+      const fb = document.getElementById("feedback");
+      if (val.length < 10) {
+        fb.style.color = "salmon";
+        fb.innerText = "Exprime-toi un peu plus. Ose mettre des mots.";
+      } else {
+        fb.style.color = "lightgreen";
+        fb.innerText = "Pont activé. Tu peux avancer.";
+        document.getElementById("choiceImpact").classList.remove("hidden");
+      }
+    }
+
+    function mirror(n) {
+      const end = document.getElementById("ending");
+      end.classList.remove("hidden");
+      let msg = "";
+      switch(n){
+        case 1: msg = "Tu revois les bons comme les mauvais jours. Et tu les acceptes tous."; break;
+        case 2: msg = "Tu vois une version de toi plus apaisée. Et tu veux le devenir."; break;
+        case 3: msg = "Tu te vois à travers ses yeux. Et tu y découvres une tendresse immense."; break;
+        case 4: msg = "Tu te regardes enfin sans masque. Et tu souris."; break;
+      }
+      end.innerHTML += "<p><em>" + msg + "</em></p>";
+    }
+  </script>
+</body>
+</html>

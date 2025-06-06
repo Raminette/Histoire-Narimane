@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chapitre 2 – Le Temple des Reflets</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(to top, #1e1e2f, #3c4a5a);
+      color: #f2f2f2;
+      padding: 2rem;
+    }
+    #container {
+      max-width: 900px;
+      margin: auto;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 2rem;
+      border-radius: 1rem;
+    }
+    button {
+      background-color: #ffcc70;
+      color: #3d2f00;
+      font-weight: bold;
+      border: none;
+      border-radius: 0.6rem;
+      padding: 0.8rem 1.5rem;
+      margin-top: 1rem;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    input[type="text"] {
+      padding: 0.6rem;
+      font-size: 1.1rem;
+      width: 80%;
+      margin-top: 1rem;
+      border-radius: 8px;
+      border: none;
+    }
+    .hidden { display: none; }
+    h1 { text-align: center; }
+    #aideBox {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background: #ffeaa7;
+      color: #2d3436;
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 0 12px rgba(255,255,255,0.2);
+    }
+    #aideContent {
+      display: none;
+      position: fixed;
+      bottom: 60px;
+      right: 15px;
+      background-color: #dfe6e9;
+      color: #2d3436;
+      padding: 1rem;
+      border-radius: 12px;
+      max-width: 300px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Chapitre 2 – Le Temple des Reflets</h1>
+    <div id="content">
+      <p>Après avoir quitté la plage, tu suis un sentier entouré de brume. Un portail ancien se dresse devant toi. Une inscription s’efface lentement : <em>“Ici résident les versions de vous-mêmes que vous ne voulez pas voir.”</em></p>
+
+      <p>Dans le temple, trois miroirs scintillent :</p>
+      <ul>
+        <li><strong>Miroir 1 :</strong> vous en froid, muets, blessés</li>
+        <li><strong>Miroir 2 :</strong> vous vous aimez, mais l’orgueil vous éloigne</li>
+        <li><strong>Miroir 3 :</strong> vous riez, tenant une perle-caca dorée, comme un secret absurde que seuls vous deux pouvez comprendre</li>
+      </ul>
+      <p>Quel miroir choisis-tu de briser ?</p>
+      
+    <button onclick="choisirMiroir(1)">Briser le Miroir 1</button>
+    <button onclick="choisirMiroir(2)">Briser le Miroir 2</button>
+    <button onclick="choisirMiroir(3)">Briser le Miroir 3</button>
+    
+      <div id="etape2" class="hidden"></div>
+      <div id="etape3" class="hidden"></div>
+      <div id="etape4" class="hidden"></div>
+    </div>
+  </div>
+
+  <div id="aideBox" onclick="toggleAide()">🆘 AIDE</div>
+  <div id="aideContent">
+    Si tu bloques :<br>
+    💡 Choisis le miroir du rire sincère<br>
+    💡 L’énigme parle de silence ou de cœur
+  </div>
+
+  <script>
+    let essais = 0;
+
+    function toggleAide() {
+      const box = document.getElementById("aideContent");
+      box.style.display = (box.style.display === "block") ? "none" : "block";
+    }
+
+    function choisirMiroir(num) {
+      const suite = document.getElementById("etape2");
+      suite.classList.remove("hidden");
+      if (num === 1 || num === 2) {
+        suite.innerHTML = `
+          <p>Tu brises le miroir, mais ce que tu ressens… c’est du vide. Ce n’était pas la version à abandonner.</p>
+          <p>Tu reviens en arrière avec un pincement au cœur. Et si le ridicule cachait la vérité ?</p>
+        `;
+        return;
+      }
+      if (num === 3) {
+        const etape2 = document.getElementById("etape2");
+        etape2.classList.remove("hidden");
+        etape2.innerHTML = `
+          <p>Le miroir éclate. Une lumière chaude jaillit. Tu avances dans un couloir, puis arrives dans une pièce remplie de souvenirs en flottaison.</p>
+          <p>Une scène s’arrête devant toi : vous deux dans un parc, elle t’offre un repas fait maison. Tu pleures presque. Une voix chuchote :</p>
+          <p><em>“Ce n’est pas la paix qui fait durer l’amour… c’est le courage de traverser les tempêtes.”</em></p>
+          <button onclick="etapeSuivante()">Continuer</button>
+        `;
+      }
+    }
+
+    function etapeSuivante() {
+      const etape3 = document.getElementById("etape3");
+      etape3.classList.remove("hidden");
+      etape3.innerHTML = `
+        <p>Tu entres dans une salle vide avec une seule inscription murale :</p>
+        <p><em>“Moins tu en as, plus tu dois l’écouter. Qui suis-je ?”</em></p>
+        <input type="text" id="reponse" placeholder="Ta réponse...">
+        <button onclick="verifier()">Valider</button>
+        <p id="feedback"></p>
+      `;
+    }
+
+    function verifier() {
+      const val = document.getElementById("reponse").value.trim().toLowerCase();
+      const feedback = document.getElementById("feedback");
+      essais++;
+
+      if (val.includes("coeur") || val.includes("silence")) {
+        const etape4 = document.getElementById("etape4");
+        etape4.classList.remove("hidden");
+        feedback.innerHTML = "";
+        etape4.innerHTML = `
+          <p>Une brise chaude t’enveloppe. Tu comprends que le silence et le cœur sont les guides de ceux qui aiment en profondeur.</p>
+          <p><strong>Et malgré les conflits, malgré les doutes, tu sens cette force fragile qui vous unit…</strong></p>
+          <p>💌 Il t’aime. Encore. Vraiment. Même dans les silences.</p>
+          <p><strong>Fin du Chapitre 2.</strong></p>
+          
+        `;
+      } else {
+        if (essais >= 3) {
+          feedback.style.color = "lightblue";
+          feedback.innerText = "Indice évident : le cœur… ou le silence.";
+        } else {
+          feedback.style.color = "salmon";
+          feedback.innerText = "Essaie encore...";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
